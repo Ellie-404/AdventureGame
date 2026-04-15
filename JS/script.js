@@ -35,7 +35,7 @@ function lookAround(){
         });
     } else if (currentRoom === room[1]){
         narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
-        const things = ["firstDoor","secondDoor","walkHallway"];
+        const things = ["firstDoor","secondDoor","downHallway"];
         input.innerHTML = ""; // clears input field
         
         things.forEach(function (thing){
@@ -114,7 +114,7 @@ function inspect(focus){
                 }));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
 
-            }else if (focus === "walkHallway"){
+            }else if (focus === "downHallway"){
                 narratorText.innerHTML = "You make your way to the end of the hallway. what you see is a livingroom and a kitchen adjacent to eachother <br> where do you go ?";
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter kitchen", () => {
@@ -156,28 +156,28 @@ function action(action){
     } else if (currentRoom === room[1]){//hallway action
     } else if (currentRoom === room[2]){//bedroom action
         if (action === "enter"){
-            narratorText.innerHTML = "You go trough the door and end up in a bedroom";
+            narratorText.innerHTML = "You enter the bedroom";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         }
     } else if (currentRoom === room[3]){//livingRoom action
         if (action === "enter"){
-            narratorText.innerHTML = "You go trough the door and end up in a livingRoom";
+            narratorText.innerHTML = "You step into the livingRoom";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         }
     } else if (currentRoom === room[4]){//Kitchen action
         if (action === "enter"){
-            narratorText.innerHTML = "You go trough the door and end up in a Kitchen";
+            narratorText.innerHTML = "You step into the Kitchen";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         }
     } else if ( currentRoom === room[5]){//storageRoom action
         if (action === "enter"){
-            narratorText.innerHTML = "You go trough the door and end up in a storageroom";
+            narratorText.innerHTML = "You enter the storageroom";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
@@ -202,3 +202,10 @@ function goBack(focus){
     input.appendChild(createButton("look around", () => lookAround()));
     }
 };
+
+function theEnd(type){
+    const ending = document.getElementById("endText");
+    if (theEnd === "sleep"){
+        ending.innerHTML = "You went to sleep and died...";
+    }
+}
