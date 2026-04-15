@@ -1,0 +1,55 @@
+
+body{
+    margin: 0;
+    padding: 0;
+}
+#main{
+    height: 100vh;
+    background-color:darkgreen;
+    display: flex;
+    flex-direction: column;
+}
+#header{
+    background-color: pink;
+    text-align: center;
+}
+
+.hidden{
+    display:none;
+}
+
+#content{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px;
+    align-items: center;
+    background-color: beige;
+    align-self: center;
+    width: 80%;
+    height: 100%;
+}
+
+#gameWindow{
+    display: flex;
+    flex-direction: column;
+    background-color: lightsalmon;
+    width: 100%;
+    align-items: center; 
+}
+
+img{
+    height: 100px;
+    width: auto;
+}
+
+.itemImg{
+    height: 100px;
+    width: 100px;
+}
+
+#footer{
+    background-color: red;
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,177 @@
+oppg: 
+Instructions
+Lag ett interaktivt tekstbasert eventyr i nettleser.
+ZORK er ett veldig gammelt tekst basert eventyr hvor du styrer en spiller som skal bevege seg rundt i en "åpen" verden men uten grafikk.
+Eksempel:
+Du befinner deg i en skog. Du ser en vei mot nord og sør. Ved ett tre ser du ett skjellett.
+Valgene du har kan være:
+Bevegelse (nord, sør, øst, vest)
+Observere(se, undersøk)
+Bruke(Plukk, kast, angrip, forsvar)
+Spillet skal ta minst 5 minutter å gjennomføre når du "speedrunner" spillet (Prøver å komme deg igjennom så fort som mulig).
+Ting som skal være med:
+Inventory (Ryggsekk) som du kan fylle med gjennstander du finner
+Mulighet for å utstyre/bevæpne din egen karakter med gjennstander (f.eks. sverd)
+Minst en fiende med helsebar
+Navigasjon med flere veier å gå
+Minst en NPC du kan "snakke" med
+Innlevering på URL fra vercel eller eget domene.
+My work
+
+
+
+|-------------------------------___------|
+|                  |      |              |
+|                  D      D              |
+|                  |      |              |
+|                  |      |   Bathroom   |
+|   Bedroom        |      |              |
+|                  |      |              |
+|                  |      |--------------|
+|                  |      |    Storage   |
+|                  |      D              |
+|------------------|      |--------------|
+|            |     |                     |
+|            |-----|         Kitchen     |
+|                                        |
+|                                        |
+|                                        |
+|                                        |
+|                                        |
+|                                        |
+|                                        |
+|----------------------D-----------------|
+
+
+Item list/Array.    
+Backpack Array.     You can look inside/inspect, add or remove items (if item is to big cue funny dialog, if backpack is full cue dialog.)
+Left hand Var.      you can inspect items, or try use them. ((you are right handed))
+Right hand var.     you can inspect items, or try use them.
+
+actions: 
+look around. 
+Inspect "...."
+grab/take "item" automatically ads it to left and or right hands(if both hands are full or item require both hands and one is full cue dialog)
+
+Name: Get Home.
+
+You wake up in what seems to be some kind of cabin in the woods. you'r goal is to escape the cabin and get home. 
+the cabin has 4 rooms. living room / Kitchen, Bathroom, Bedroom and storage room. 
+
+enemy: 
+the cabin is sourounded by a big mystic plant like creature. it must be killed before you can escape. giant vines wrap around blocking the enterance door. etc
+npc's to talk to:
+nr 1. an old woman sitting in a rocking chair in the livingroom. she cannot talk but you can communicate in some ways with her.
+nr 2. a black raven that laughs and mocks you. is he on ur side or not ?
+
+----------------------------------Bathroom-------------------------------------------
+you wake up in the bathroom, inside the bathroom there is a simple toilet. sink with a cabinet under. and a mirror
+with storage. a small window with bars are the only source of light. 
+
+the door out from the bathroom is locked. you will need to find a way to unlock it. 
+there is a key hidden inside the water tank of the toilet. 
+there is a lock pick on the window sill. 
+an old bar of soap.
+
+the key obv opens the door. 
+the lock-pick makes you think you can open the door but if you choose this you get: 
+"you try to use the lock-pick to unlock the door, as you jam and prod the insides of the lock with the lock-pick. 
+you ofc have no idea how to actually use said lock-pick so the end result is a bent pin and frustration"
+
+actions: 
+look around.
+inspect "...."
+try the door handle. 
+try the window.         "you grab the bars and pull you'r self up to try and see outside" suddenly a black raven lands in the window an pecks you'r hands making you let go of the bars. 
+                            in the suprise you fall over and land on ur ass. the raven looks down at you and starts cawing in a laughing manor as if it's mocking you. 
+flush toilet.           "you flush the toilet staring mesmerised as the water whirls around in a vortex" nothing happens.
+open sink cabinet.      "you open the sink cabinet" if inspect "there is a bucket, a roll of toilet paper, 
+open mirror cabinet.
+try the sink. 
+
+
+--------------------------------Kitchen/Dining/hallway/living room--------------------------------------
+living room area: 
+a rocking chair.
+a worn couch. and matching armchair. 
+a worn coffee table. 
+old wall clock.
+
+old woman sitting motionless in the rocking chair in the corner. she is staring straight at you with wide almost unblinking eyes. her gaze follows ur every move. 
+((in her mouth she has the key to the storage room))
+
+fireplace. 
+
+kitchen area: 
+the usual kitchen counters with cabinets. an old fridge that is broken. a rusty sink that constantly drips water. 
+an old stove.
+
+dinging area:
+a small table with 1 bench and 2 chairs. above hangs a crocked lamp that keeps blinking at random intervals.
+
+Entrance area:
+door that is locked / shut / blocked by plant. 
+coat rack with 1 long black coat. 
+1 pair of missmatched shoes.
+
+--------------------------------Bedroom--------------------------------------------------
+furniture etc: 
+1 double bed w a thin blanket. and 2 pillows.
+1 old and worn closet. one door askew.
+1 nightstand with a crocked lamp on top. 
+wallpaper pealing. window boarded shut from the outside. a small gap you can peer trough. framed by ragged curtains.
+
+--------------------------------Storage room---------------------------------------------
+
+shelves line the wall. 
+some garden tools.
+
+
+
+konkret plan. 
+
+Get Home / Escape cabin. 
+
+våkner på bade. døra er låst. løsning = nøkkel som er gjemt inne i tanken på toalettet. kråke på vinduskarmen som ler av deg.
+du kan prøve snakke med kråka men den vil bare skakke litt på hue og stirre dumt på deg. om du gjør 3 forsøk på å åpne døra uten nøkkel flyr kråka inn og setter seg på toppen av doen. 
+den begynner pekke på lokket på vannholderen som et hint på hvor løsnigen ligger.
+går ut av bade og havner i gangen. 2 dører til i gangen. en åpen til soverom. 1 låst/stengt til storage. 
+evt ut av gangen og inn i stue/kjøkken område.
+
+creepy dame i gyngestol på stua som stirrer. hun har nøkkel til storage rom i munn. for å finne utav dette må du få henne til å le.... 
+
+utgangsdøra er blokkert av tykke røtter fra en monster plante. denne må drepes/fjernes før man kommer seg ut. 
+en stor blomst med et stort øye sitter på en av slyngene til planten. 
+hvis du har plukket opp salt og heller dette i øye på planta så begynner den å grine.
+dette vil få den gamle dama te å le så hu spytter ut nøkkelen.
+
+etter du har fått nøkkelen av hu gamle dama vil hu brått stoppe le og begynne stirre på peisen. 
+i peisen er det gjemt en kode til å åpne safen som er i skape på soverommet.
+
+en av løsningene for å drepe planta er: 
+du må ha 2 forskjellige kjemikalier å blande de i en spray flaske. kjemikalie nr1 er i boden. nr 2 er i safen. 
+spray flasken finner du under vasken på badet. 
+
+når man har fått planta til å trekke seg tilbake så kan man gå ut utgangsdøra. 
+når man gjør dette så vil man på nytt møte monster planta men denn egangen må du sloss for å overleve.
+
+hvis du failer bossfighten så våkner du på nytt på bade. 
+hvis du vinner så har du klart spille og du kan dra "hjem"
+
+items:
+
+salt. 
+pepper.
+pesticide laget av kjemikalie nr1 + 2 og sprayflaske. 1 time use. 
+saks. 
+såpe.
+mystisk drikk fra kjøleskapet.
+hårføner. 
+hårbørste.
+hårspray + lighter.
+øks.
+
+
+liste over boss weakness items. 
+liste over boss innefective items. 
+
