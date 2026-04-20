@@ -138,7 +138,11 @@ function inspect(focus){
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
                 }
         }else if (focus === "toilet"){
-            if (Inv.includes("bathroomKey")){narratorText.innerHTML="you inspect the toilet, there is nothing here.";
+            if (Inv.includes("bathroomKey")){
+                narratorText.innerHTML="you inspect the toilet, there is nothing here.";
+                input.innerHTML = '';
+                input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
+
             }else if(!Inv.includes("BathroomKey")){
                 narratorText.innerHTML="you inspect the toilet, a shiny object hanging in the side catches your attention, as you inspect further you realize it's a key.";
                 input.innerHTML = '';
