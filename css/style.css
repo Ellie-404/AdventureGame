@@ -69,6 +69,7 @@ img{
 
 #dialogBox{
     display: flex;
+    flex-direction: column;
     background-color: pink;
 }
 
