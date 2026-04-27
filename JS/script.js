@@ -518,31 +518,31 @@ function theEnd(type){
 function image(focus){
     console.log("image() running", currentRoom);
     if (currentRoom === "bathRoom"){ //Bathroom
-        imageLink.src = "https://images.pexels.com/photos/31415128/pexels-photo-31415128.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(1).png?raw=true";
         if(focus === "toilet"){
-            imageLink.src = "https://images.pexels.com/photos/5370033/pexels-photo-5370033.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(7).png?raw=true";
         } else if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
     }else if (currentRoom === room[1]){ //Hallway
-        imageLink.src = "https://images.pexels.com/photos/34572109/pexels-photo-34572109.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(2).png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         } else if (focus === "downHallway"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Untitled%20design.png?raw=true";
         }
     }else if (currentRoom === room[2]){ //Bedroom
-        imageLink.src = "https://images.pexels.com/photos/35839979/pexels-photo-35839979.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(3).png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
     }else if (currentRoom === room[3]){ //Living room
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/OldLady.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
     }else if (currentRoom === room[4]){ //Kitchen
-        imageLink.src = "https://images.pexels.com/photos/30715456/pexels-photo-30715456.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(8).png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
