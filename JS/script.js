@@ -189,6 +189,7 @@ function inspect(focus){
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
 
             }else if (focus === "downHallway"){
+                image("downHallway");
                 narratorText.innerHTML = "You make your way to the end of the hallway. what you see is a living room and a kitchen adjacent to each other <br> where do you go ?";
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter kitchen", () => {
@@ -466,6 +467,8 @@ function image(focus){
         imageLink.src = "https://images.pexels.com/photos/34572109/pexels-photo-34572109.jpeg";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        } else if (focus === "downHallway"){
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Untitled%20design.png?raw=true";
         }
     }else if (currentRoom === room[2]){ //Bedroom
         imageLink.src = "https://images.pexels.com/photos/35839979/pexels-photo-35839979.jpeg";
