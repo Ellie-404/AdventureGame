@@ -1,7 +1,7 @@
 
 let Inv = []; //Player Inventory
 
-// Bathroom items: Spraybottle, BathroomKey, barOfSoap
+// Bathroom items: Spray bottle, BathroomKey, barOfSoap
 // Bedroom items:   SafeWithRecipe
 // Storage room items:  Ingredient1
 // Kitchen room items: Salt, Pepper, Spatula, Ingredient2
@@ -13,11 +13,18 @@ const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storage
 
 let playerHealth = 100;
 let monsterHealth = 100;
-let currentRoom = room[0];
+let currentRoom = room[5];
 let roomMemory = [];
-let roomsVisited = [];
 let plantEvent = [];
 let eventTracker = [];
+
+const roomsVisited = {
+    hallway: false, 
+    bedRoom: false, 
+    livingRoom: false,
+    kitchen: false,
+    storageRoom: false
+};
 
 const narratorText = document.getElementById("narrator");
 const input = document.querySelector("#choiceBox");
@@ -109,6 +116,11 @@ function lookAround(){
             });
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
+        input.appendChild(createButton("Go back", () => goBack()));
+    }else if (currentRoom === room[5]){ //Storage
+        narratorText.innerHTML = "You look around you... you are standing in a storage room"
+        input.innerHTML = ""; // clears input field
+        
         input.appendChild(createButton("Go back", () => goBack()));
     } else {
         console.log("ERROR: lookAround function did not work as intended")
