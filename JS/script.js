@@ -1,10 +1,13 @@
 
 let Inv = []; //Player Inventory
-let bathroomStuff = ["sprayBottle", "bathroomKey","barOfSoap"]; //Bathroom "inventory"
-let bedroomStuff = ["recipe",];
-let storageStuff = ["ingredient1", "axe"];
-let kitchenStuff = ["ingredient2"];
-let livingroomStuff = ["storageKey", "safeCode"];
+
+// Bathroom items: Spraybottle, BathroomKey, barOfSoap
+// Bedroom items:   SafeWithRecipe
+// Storage room items:  Ingredient1
+// Kitchen room items: Salt, Pepper, Spatula, Ingredient2
+// Living room items: SafeCode, StorageKey
+
+//Combine: Ingredient1 + Ingredient2 + SprayBottle = WeedKiller
 
 const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storageRoom"]; //list of rooms
 
@@ -12,27 +15,28 @@ let playerHealth = 100;
 let monsterHealth = 100;
 let currentRoom = room[0];
 let roomMemory = [];
-let roomsWisited = [];
+let roomsVisited = [];
 let plantEvent = [];
 let eventTracker = [];
 
 const narratorText = document.getElementById("narrator");
-const image = document.getElementById("imgBox");
 const input = document.querySelector("#choiceBox");
 const goBackBtn = document.querySelector("#goBackBtn");
+const imageLink = document.getElementById("imgLink");
 
 const healthPlayerDiv = document.getElementById("healthPlayer");
 const healthMonsterDiv = document.getElementById("healthMonster");
 
 function healthTracker(){
 healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
-healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth
-}
+healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
+};
 
 healthTracker();
 
 // "show's" the player what is in their current location and gives actions based on this.
 function lookAround(){
+    image();
     if (currentRoom === room[0]){ //Bathroom
         narratorText.innerHTML = "You look around... <br> you're in what looks like an old and musty bathroom, there is a door and an old toilet"
         const things = ["door","toilet"];
@@ -48,7 +52,7 @@ function lookAround(){
         });
     } else if (currentRoom === room[1]){ //Hallway
         narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
-        const things = ["firstDoor","secondDoor","downHallway"];
+        const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
         input.innerHTML = ""; // clears input field
         
         things.forEach(function (thing){
@@ -123,6 +127,7 @@ function createButton(text, onClick){
 function inspect(focus){
     if(currentRoom === room[0]){ //Bathroom
         if(focus === "door"){
+            image("door");
             if(!Inv.includes("bathroomKey")){
                 narratorText.innerHTML = "You approach the door and try the handle, it's locked";
                 input.innerHTML="";
@@ -138,6 +143,7 @@ function inspect(focus){
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
                 }
         }else if (focus === "toilet"){
+            image("toilet");
             if (Inv.includes("bathroomKey")){
                 narratorText.innerHTML="you inspect the toilet, there is nothing here.";
                 input.innerHTML = '';
@@ -152,6 +158,7 @@ function inspect(focus){
         }
     }else if (currentRoom === room[1]){ //Hallway
         if(focus === "firstDoor"){
+                image("door");
                 narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..Bedroom.. written on it. <br> do you enter ?";
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
@@ -162,9 +169,9 @@ function inspect(focus){
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
 
             }else if (focus === "secondDoor"){
+                image("door");
                 narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..storage.. written on it. <br> do you enter ?";
                 input.innerHTML = "";
-                
                 input.appendChild(createButton("Enter", () => {
                     if(!Inv.includes("storageKey")){
                         narratorText.innerHTML = "As you try the handle you realize the door is locked."
@@ -195,6 +202,14 @@ function inspect(focus){
                     action("enter")}
                 ));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
+            }else if (focus === "Bathroom"){
+                narratorText.innerHTML = "You approach the bathroom door";
+                input.innerHTML = "";
+                input.appendChild(createButton("Enter", () => {
+                    roomMemory.push(currentRoom);
+                    currentRoom = room[0];
+                    action("enter")
+                }));
             }
 
     }else if (currentRoom === room[2]){ // Bedroom
@@ -435,5 +450,44 @@ function theEnd(type){
     const ending = document.getElementById("endText");
     if (theEnd === "sleep"){
         ending.innerHTML = "You went to sleep and died...";
+    }
+}
+
+function image(focus){
+    console.log("image() running", currentRoom);
+    if (currentRoom === "bathRoom"){ //Bathroom
+        imageLink.src = "https://images.pexels.com/photos/31415128/pexels-photo-31415128.jpeg";
+        if(focus === "toilet"){
+            imageLink.src = "https://images.pexels.com/photos/5370033/pexels-photo-5370033.jpeg";
+        } else if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else if (currentRoom === room[1]){ //Hallway
+        imageLink.src = "https://images.pexels.com/photos/34572109/pexels-photo-34572109.jpeg";
+        if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else if (currentRoom === room[2]){ //Bedroom
+        imageLink.src = "https://images.pexels.com/photos/35839979/pexels-photo-35839979.jpeg";
+        if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else if (currentRoom === room[3]){ //Living room
+        imageLink.src = "https://images.pexels.com/photos/7859830/pexels-photo-7859830.jpeg";
+        if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else if (currentRoom === room[4]){ //Kitchen
+        imageLink.src = "https://images.pexels.com/photos/30715456/pexels-photo-30715456.jpeg";
+        if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else if (currentRoom === room[5]){ //Storage
+        imageLink.src = "https://images.pexels.com/photos/26346570/pexels-photo-26346570.jpeg";
+        if (focus === "door"){
+            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+        }
+    }else{
+        console.log("Image function did not work as intended...");
     }
 }
