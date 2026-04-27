@@ -13,11 +13,22 @@ const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storage
 
 let playerHealth = 100;
 let monsterHealth = 100;
-let currentRoom = room[5];
+let currentRoom = room[0];
 let roomMemory = [];
 let plantEvent = [];
-let eventTracker = [];
 
+//Tracks events
+const eventTracker = {
+
+};
+
+//Tracks if inspected objects
+const inspected = {
+    bedroomDoor:false,
+    storageroomDoor:false,
+}
+
+//tracks if entered a room
 const roomsVisited = {
     hallway: false, 
     bedRoom: false, 
@@ -34,6 +45,7 @@ const imageLink = document.getElementById("imgLink");
 const healthPlayerDiv = document.getElementById("healthPlayer");
 const healthMonsterDiv = document.getElementById("healthMonster");
 
+// Updates player and monster health
 function healthTracker(){
 healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
 healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
@@ -58,14 +70,19 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[1]){ //Hallway
-        narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
-        const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
+        if (inspected.bedroomDoor === true){
+            narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
+            const things = ["BedroomDoor","secondDoor","downHallway","Bathroom"];
+        } else{
+            narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
+            const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
+        }
         input.innerHTML = ""; // clears input field
         
         things.forEach(function (thing){
             
             const button = document.createElement("button");
-            button.textContent = `Inspect ${thing}`;
+            button.textContent = `${thing}`;
             button.addEventListener("click", function(){
                 inspect(thing);
             });
@@ -88,7 +105,12 @@ function lookAround(){
         input.appendChild(createButton("Go back", () => goBack()));
 
     } else if (currentRoom === room[3]){ //Living room
-        narratorText.innerHTML = "You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?"
+        if(roomsVisited.livingRoom === false){
+            narratorText.innerHTML = "You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?"
+            roomsVisited.livingRoom = true;
+        } else if (roomsVisited.livingRoom === true){
+            narratorText.innerHTML = "You look around you... you are standing in the living room. <br> The old lady is still sitting in the corner just staring at you... <br> What do you do...?"
+        }
         const things = ["approach lady","Inspect Fireplace"];
         input.innerHTML = ""; // clears input field
         
@@ -169,7 +191,8 @@ function inspect(focus){
             }
         }
     }else if (currentRoom === room[1]){ //Hallway
-        if(focus === "firstDoor"){
+        if(focus === "firstDoor" && bedroomDoor === false){
+                inspected.bedroomDoor = true;
                 image("door");
                 narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..Bedroom.. written on it. <br> do you enter ?";
                 input.innerHTML = "";
@@ -459,6 +482,7 @@ function goBack(focus){
     }
 };
 
+// gives player ending screen type based on choices etc
 function theEnd(type){
     const ending = document.getElementById("endText");
     if (theEnd === "sleep"){
@@ -466,6 +490,7 @@ function theEnd(type){
     }
 }
 
+// Changes game image based on location etc
 function image(focus){
     console.log("image() running", currentRoom);
     if (currentRoom === "bathRoom"){ //Bathroom
