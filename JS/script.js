@@ -57,7 +57,7 @@ healthTracker();
 function lookAround(){
     image();
     if (currentRoom === room[0]){ //Bathroom
-        narratorText.innerHTML = "You look around... <br> you're in what looks like an old and musty bathroom, there is a door and an old toilet"
+        narratorText.innerHTML = "You look around... <br> you're in what looks like an old and musty bathroom, there is a door a sink with a cabinet and an old toilet"
         const things = ["door","toilet","sink cabinet"];
         input.innerHTML = ""; // clears input field
         
