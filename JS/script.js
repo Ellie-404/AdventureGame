@@ -58,7 +58,7 @@ function lookAround(){
     image();
     if (currentRoom === room[0]){ //Bathroom
         narratorText.innerHTML = "You look around... <br> you're in what looks like an old and musty bathroom, there is a door and an old toilet"
-        const things = ["door","toilet"];
+        const things = ["door","toilet","sink cabinet"];
         input.innerHTML = ""; // clears input field
         
         things.forEach(function (thing){
@@ -70,13 +70,8 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[1]){ //Hallway
-        if (inspected.bedroomDoor === true){
-            narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
-            const things = ["BedroomDoor","secondDoor","downHallway","Bathroom"];
-        } else{
-            narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
-            const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
-        }
+        narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
+        const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
         input.innerHTML = ""; // clears input field
         
         things.forEach(function (thing){
@@ -183,11 +178,22 @@ function inspect(focus){
                 input.innerHTML = '';
                 input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
 
-            }else if(!Inv.includes("BathroomKey")){
+            }else{
                 narratorText.innerHTML="you inspect the toilet, a shiny object hanging in the side catches your attention, as you inspect further you realize it's a key.";
                 input.innerHTML = '';
                 input.appendChild(createButton("Take key", () => action("takeKey")));
                 input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
+            }
+        } else if (focus === "sink cabinet"){
+            if(Inv.includes("SprayBottle")){
+                narratorText.innerHTML="you inspect the sink cabinet, there is nothing here.";
+                input.innerHTML = '';
+                input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
+            }else{
+                narratorText.innerHTML="you inspect the sink cabinet... <br> you find an empty spray bottle";
+                input.innerHTML = '';
+                input.appendChild(createButton("Take bottle", () => action("takeSprayBottle")));
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
         }
     }else if (currentRoom === room[1]){ //Hallway
@@ -387,6 +393,11 @@ function action(action, item, button){
             narratorText.innerHTML = "You go trough the door and end up in a hallway";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
+            input.appendChild(createButton("Go back", () => goBack()));
+        } else if (action === "takeSprayBottle"){
+            Inv.push("SprayBottle");
+            narratorText.innerHTML = "You take the spray bottle";
+            input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     } else if (currentRoom === room[1]){//hallway action
