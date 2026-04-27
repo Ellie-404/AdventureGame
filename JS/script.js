@@ -19,7 +19,7 @@ let plantEvent = [];
 
 //Tracks events
 const eventTracker = {
-
+    bathroomDoorLocked: true,
 };
 
 //Tracks if inspected objects
@@ -157,11 +157,12 @@ function inspect(focus){
     if(currentRoom === room[0]){ //Bathroom
         if(focus === "door"){
             image("door");
-            if(!Inv.includes("bathroomKey")){
+            if(!Inv.includes("bathroomKey") && eventTracker.bathroomDoorLocked){
                 narratorText.innerHTML = "You approach the door and try the handle, it's locked";
                 input.innerHTML="";
-                input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else if (Inv.includes("bathroomKey")){
+                Inv.pop();
+                eventTracker.bathroomDoorLocked = false;
                 narratorText.innerHTML = "You approach the door and try the handle, it's locked, you use the key you found to unlock the door. <br> do you go trough ?";
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
@@ -169,8 +170,16 @@ function inspect(focus){
                     action("enter")
                     currentRoom = room[1];
                 }));
-                input.appendChild(createButton("Go back", () => goBack("inspect")));
-                }
+            }else {
+                narratorText.innerHTML = "you approach the bathroom door";
+                input.innerHTML="";
+                input.appendChild(createButton("Enter", () => {
+                    roomMemory.push(currentRoom);
+                    action("enter")
+                    currentRoom = room[1];
+                }));
+            }
+            input.appendChild(createButton("Go back", () => goBack("inspect")));
         }else if (focus === "toilet"){
             image("toilet");
             if (Inv.includes("bathroomKey")){
@@ -197,7 +206,7 @@ function inspect(focus){
             }
         }
     }else if (currentRoom === room[1]){ //Hallway
-        if(focus === "firstDoor" && bedroomDoor === false){
+        if(focus === "firstDoor"){
                 inspected.bedroomDoor = true;
                 image("door");
                 narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..Bedroom.. written on it. <br> do you enter ?";
@@ -390,7 +399,7 @@ function action(action, item, button){
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         } else if (action === "enter") {
-            narratorText.innerHTML = "You go trough the door and end up in a hallway";
+            narratorText.innerHTML = "You go through the door";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
@@ -401,9 +410,13 @@ function action(action, item, button){
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     } else if (currentRoom === room[1]){//hallway action
+        narratorText.innerHTML = "You go through the door";
+        input.innerHTML = "";
+        input.appendChild(createButton("look around", () => lookAround()));
+        input.appendChild(createButton("Go back", () => goBack()));
     } else if (currentRoom === room[2]){//bedroom action
         if (action === "enter"){
-            narratorText.innerHTML = "You enter the bedroom";
+            narratorText.innerHTML = "You go through the door";
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
