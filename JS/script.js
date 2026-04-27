@@ -537,7 +537,7 @@ function image(focus){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
     }else if (currentRoom === room[3]){ //Living room
-        imageLink.src = "https://images.pexels.com/photos/7859830/pexels-photo-7859830.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/OldLady.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         }
