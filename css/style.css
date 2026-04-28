@@ -70,13 +70,17 @@ img{
 #dialogBox{
     display: flex;
     flex-direction: column;
-    background-color: pink;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: rgb(227, 218, 201);
 }
 
 #choiceBox{
     display: flex;
     flex-direction: column;
-    background-color:darkkhaki;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color:rgb(227, 218, 201);
     width: 100%;
 }
 
