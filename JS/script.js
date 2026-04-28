@@ -161,7 +161,6 @@ function inspect(focus){
                 narratorText.innerHTML = "You approach the door and try the handle, it's locked";
                 input.innerHTML="";
             } else if (Inv.includes("bathroomKey")){
-                Inv.pop();
                 eventTracker.bathroomDoorLocked = false;
                 narratorText.innerHTML = "You approach the door and try the handle, it's locked, you use the key you found to unlock the door. <br> do you go trough ?";
                 input.innerHTML = "";
