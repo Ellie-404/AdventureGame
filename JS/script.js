@@ -520,21 +520,21 @@ function theEnd(type){
 function image(focus){
     console.log("image() running", currentRoom);
     if (currentRoom === "bathRoom"){ //Bathroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bathroom.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bathroom_50.png?raw=true";
         if(focus === "toilet"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/ToiletKey.png?raw=true";
         } else if (focus === "door"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else if (currentRoom === room[1]){ //Hallway
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Hallway.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Hallway_50.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         } else if (focus === "downHallway"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Untitled%20design.png?raw=true";
         }
     }else if (currentRoom === room[2]){ //Bedroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedRoom.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedRoom_50.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }else if (focus === "oldCloset"){
@@ -545,7 +545,7 @@ function image(focus){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedroomWindow.png?raw=true";
         }
     }else if (currentRoom === room[3]){ //Living room
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/LivingRoomLady.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/LivingRoomLady_50.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
