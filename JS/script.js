@@ -265,6 +265,7 @@ function inspect(focus){
 
     }else if (currentRoom === room[2]){ // Bedroom
         if(focus === "oldCloset"){
+            image("oldCloset");
             if(!Inv.includes("safeCode")){
                 narratorText.innerHTML = "You approach the old closet, you open the door and find a safe. it's secrets safely locked away <br> you need a combination to open the safe";
                 input.innerHTML = "";
@@ -277,10 +278,12 @@ function inspect(focus){
             }
             
         }else if(focus === "oldBed"){
+            image("oldBed");
             narratorText.innerHTML = "you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> there is nothing more to see here. ";
             input.innerHTML = "";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }else if(focus === "window"){
+            image("window");
             narratorText.innerHTML = "You approach the window. you can see trough the sheer curtains that it's boarded up from outside <br> from what little you can see trough the cracks you can make out that you are in a what seems to be a forrest. <br> the dim orange glow giving away the time of day.";
             input.innerHTML = "";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -518,38 +521,44 @@ function theEnd(type){
 function image(focus){
     console.log("image() running", currentRoom);
     if (currentRoom === "bathRoom"){ //Bathroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(1).png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bathroom.png?raw=true";
         if(focus === "toilet"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(7).png?raw=true";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/ToiletKey.png?raw=true";
         } else if (focus === "door"){
-            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else if (currentRoom === room[1]){ //Hallway
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(2).png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Hallway.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
         } else if (focus === "downHallway"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Untitled%20design.png?raw=true";
         }
     }else if (currentRoom === room[2]){ //Bedroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(3).png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedRoom.png?raw=true";
         if (focus === "door"){
-            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
+        }else if (focus === "oldCloset"){
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(4).png?raw=true";
+        }else if (focus === "oldBed"){
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bed.png?raw=true";
+        }else if (focus === "window"){
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedroomWindow.png?raw=true";
         }
     }else if (currentRoom === room[3]){ //Living room
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer.png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/LivingRoomLady.png?raw=true";
         if (focus === "door"){
-            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else if (currentRoom === room[4]){ //Kitchen
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(8).png?raw=true";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Kitchen.png?raw=true";
         if (focus === "door"){
-            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else if (currentRoom === room[5]){ //Storage
         imageLink.src = "https://images.pexels.com/photos/26346570/pexels-photo-26346570.jpeg";
         if (focus === "door"){
-            imageLink.src = "https://images.pexels.com/photos/33815007/pexels-photo-33815007.jpeg";
+            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else{
         console.log("Image function did not work as intended...");
