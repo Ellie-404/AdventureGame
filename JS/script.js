@@ -51,11 +51,35 @@ healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
 healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
 };
 
-//TypeWriter effekt
+let currentSound = null;  // keeps track of sounds playing
+
+//plays sound effect with current room
+function playRoomSound(room) {
+    if (currentSound) {
+        currentSound.pause();  // stop previous sound
+        currentSound.currentTime = 0;
+    }
+
+    const sounds = {
+        "bathroom": new Audio("sound/freesound_community-dripping-tapwater-27783.mp3"),
+        "hallway": new Audio("sound/freesound_community-wood-creaking-30692.mp3"),
+        "livingroom": new Audio("sound/livingroom.mp3"),
+    };
+
+    if (sounds[room]) {
+        currentSound = sounds[room];
+        currentSound.loop = true;  // loop så den spiller kontinuerlig
+        currentSound.play();
+    }
+}
+
+
+//TypeWriter effect
 function typeWriter(text, element, speed = 30) {
     narratorText.innerHTML = "";
     
     const typingSound = new Audio("sound/freesound_community-035385_long-sound-typewriter-76388.mp3");
+    typingSound.volume = 0.3;
     typingSound.play();
 
     const parts = text.split("<br>");
@@ -88,6 +112,7 @@ healthTracker();
 function lookAround(){
     image();
     if (currentRoom === room[0]){ //Bathroom
+        playRoomSound("bathroom");
         typeWriter("You look around... <br> you're in what looks like an old and musty bathroom, there is a door a sink with a cabinet and an old toilet...", narratorText);
         const things = ["door","toilet","sink cabinet"];
         input.innerHTML = ""; // clears input field
@@ -101,6 +126,7 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[1]){ //Hallway
+        playRoomSound("hallway");
         typeWriter("You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room", narratorText);
         const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
         input.innerHTML = ""; // clears input field
