@@ -55,7 +55,7 @@ healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
 function typeWriter(text, element, speed = 30) {
     narratorText.innerHTML = "";
     
-    const typingSound = new Audio("path/til/lyd.mp3");
+    const typingSound = new Audio("sound/freesound_community-035385_long-sound-typewriter-76388.mp3");
     typingSound.play();
 
     const parts = text.split("<br>");
