@@ -45,6 +45,8 @@ const imageLink = document.getElementById("imgLink");
 const healthPlayerDiv = document.getElementById("healthPlayer");
 const healthMonsterDiv = document.getElementById("healthMonster");
 
+const doorSound = new Audio("sound/dragon-studio-door-opening-sfx-454243.mp3");
+
 // Updates player and monster health
 function healthTracker(){
 healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
@@ -52,6 +54,9 @@ healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
 };
 
 let currentSound = null;  // keeps track of sounds playing
+let typingSound = new Audio("sound/freesound_community-035385_long-sound-typewriter-76388.mp3");
+let typewriterInterval = null;
+
 
 //plays sound effect with current room
 function playRoomSound(room) {
@@ -63,7 +68,7 @@ function playRoomSound(room) {
     const sounds = {
         "bathroom": new Audio("sound/freesound_community-dripping-tapwater-27783.mp3"),
         "hallway": new Audio("sound/freesound_community-wood-creaking-30692.mp3"),
-        "livingroom": new Audio("sound/livingroom.mp3"),
+        "bedroom": new Audio("sound/tanweraman-howling-hissy-blizard-350418.mp3"),
     };
 
     if (sounds[room]) {
@@ -76,19 +81,25 @@ function playRoomSound(room) {
 
 //TypeWriter effect
 function typeWriter(text, element, speed = 30) {
+    if (typewriterInterval) {
+        clearInterval(typewriterInterval);  // stopp forrige
+    }
+    
     narratorText.innerHTML = "";
     
-    const typingSound = new Audio("sound/freesound_community-035385_long-sound-typewriter-76388.mp3");
+    typingSound.pause();        // stopp forrige
+    typingSound.currentTime = 0; // spol tilbake
     typingSound.volume = 0.3;
-    typingSound.play();
+    typingSound.play();          // start på nytt
+
 
     const parts = text.split("<br>");
     let partIndex = 0;
     let charIndex = 0;
 
-    const interval = setInterval(() => {
+    typewriterInterval = setInterval(() => {  // lagre i den globale
         if (partIndex >= parts.length) {
-            clearInterval(interval);
+            clearInterval(typewriterInterval);
             typingSound.pause();
             return;
         }
@@ -141,6 +152,7 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[2]){ //Bedroom
+        playRoomSound("bedroom");
         typeWriter("You look around you... you are standing in a bedroom. <br> to your left you spot a big closet, its doors barely hanging on their hinges. <br> to your right an old bed and straight a head a small window, it's curtains sheer <br> you... ? ? ", narratorText);
         const things = ["oldCloset","oldBed","window"];
         input.innerHTML = ""; // clears input field
@@ -459,6 +471,7 @@ function action(action, item, button){
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         } else if (action === "enter") {
+            doorSound.play();
             typeWriter("You go through the door",narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
@@ -471,6 +484,7 @@ function action(action, item, button){
         }
     } else if (currentRoom === room[1]){//hallway action
         typeWriter("You go through the door", narratorText);
+        doorSound.play();
         input.innerHTML = "";
         input.appendChild(createButton("look around", () => lookAround()));
         input.appendChild(createButton("Go back", () => goBack()));
