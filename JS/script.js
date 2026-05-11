@@ -51,13 +51,44 @@ healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
 healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
 };
 
+//TypeWriter effekt
+function typeWriter(text, element, speed = 30) {
+    narratorText.innerHTML = "";
+    
+    const typingSound = new Audio("path/til/lyd.mp3");
+    typingSound.play();
+
+    const parts = text.split("<br>");
+    let partIndex = 0;
+    let charIndex = 0;
+
+    const interval = setInterval(() => {
+        if (partIndex >= parts.length) {
+            clearInterval(interval);
+            typingSound.pause();
+            return;
+        }
+
+        if (charIndex < parts[partIndex].length) {
+            element.innerHTML += parts[partIndex][charIndex];
+            charIndex++;
+        } else {
+            if (partIndex < parts.length - 1) {
+                element.innerHTML += "<br>";
+            }
+            partIndex++;
+            charIndex = 0;
+        }
+    }, speed);
+}
+
 healthTracker();
 
 // "show's" the player what is in their current location and gives actions based on this.
 function lookAround(){
     image();
     if (currentRoom === room[0]){ //Bathroom
-        narratorText.innerHTML = "You look around... <br> you're in what looks like an old and musty bathroom, there is a door a sink with a cabinet and an old toilet"
+        typeWriter("You look around... <br> you're in what looks like an old and musty bathroom, there is a door a sink with a cabinet and an old toilet...", narratorText);
         const things = ["door","toilet","sink cabinet"];
         input.innerHTML = ""; // clears input field
         
@@ -70,7 +101,7 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[1]){ //Hallway
-        narratorText.innerHTML = "You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room"
+        typeWriter("You look around the hallway... <br> There is a door right in front of you, a door to your left. or you can walk down the hallway into what looks to be the living room", narratorText);
         const things = ["firstDoor","secondDoor","downHallway","Bathroom"];
         input.innerHTML = ""; // clears input field
         
@@ -84,7 +115,7 @@ function lookAround(){
             input.appendChild(button); //inserts buttons into "parent" Input div
         });
     } else if (currentRoom === room[2]){ //Bedroom
-        narratorText.innerHTML = "You look around you... you are standing in a bedroom. <br> to your left you spot a big closet, its doors barely hanging on their hinges. <br> to your right an old bed and straight a head a small window, it's curtains sheer <br> you... ? ? "
+        typeWriter("You look around you... you are standing in a bedroom. <br> to your left you spot a big closet, its doors barely hanging on their hinges. <br> to your right an old bed and straight a head a small window, it's curtains sheer <br> you... ? ? ", narratorText);
         const things = ["oldCloset","oldBed","window"];
         input.innerHTML = ""; // clears input field
         
@@ -101,10 +132,10 @@ function lookAround(){
 
     } else if (currentRoom === room[3]){ //Living room
         if(roomsVisited.livingRoom === false){
-            narratorText.innerHTML = "You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?"
+            typeWriter("You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?", narratorText);
             roomsVisited.livingRoom = true;
         } else if (roomsVisited.livingRoom === true){
-            narratorText.innerHTML = "You look around you... you are standing in the living room. <br> The old lady is still sitting in the corner just staring at you... <br> What do you do...?"
+            typeWriter("You look around you... you are standing in the living room. <br> The old lady is still sitting in the corner just staring at you... <br> What do you do...?", narratorText)
         }
         const things = ["approach lady","Inspect Fireplace"];
         input.innerHTML = ""; // clears input field
@@ -120,7 +151,7 @@ function lookAround(){
         });
         input.appendChild(createButton("Go back", () => goBack()));
     } else if (currentRoom === room[4]){ //Kitchen
-        narratorText.innerHTML = "You look around you... you are standing the kitchen. <br> it's a simple kitchen.. the monsterous plant's roots are everywhere. <br> a big flower with a big eye sits on one of the vines..."
+        typeWriter("You look around you... you are standing the kitchen. <br> it's a simple kitchen.. the monsterous plant's roots are everywhere. <br> a big flower with a big eye sits on one of the vines...", narratorText)
         const things = ["Inspect fridge","Inspect cupboards", "Inspect Sink","Approach plant"];
         input.innerHTML = ""; // clears input field
         
@@ -135,7 +166,7 @@ function lookAround(){
         });
         input.appendChild(createButton("Go back", () => goBack()));
     }else if (currentRoom === room[5]){ //Storage
-        narratorText.innerHTML = "You look around you... you are standing in a storage room"
+        typeWriter("You look around you... you are standing in a storage room", narratorText)
         input.innerHTML = ""; // clears input field
         
         input.appendChild(createButton("Go back", () => goBack()));
@@ -148,6 +179,7 @@ function lookAround(){
 function createButton(text, onClick){ 
     const btn = document.createElement("button");
     btn.textContent = text;
+    btn.classList.add("choiceButton");
     btn.addEventListener("click", onClick);
     return btn;
 };
@@ -158,11 +190,11 @@ function inspect(focus){
         if(focus === "door"){
             image("door");
             if(!Inv.includes("bathroomKey") && eventTracker.bathroomDoorLocked){
-                narratorText.innerHTML = "You approach the door and try the handle, it's locked";
+                typeWriter("You approach the door and try the handle, it's locked", narratorText);
                 input.innerHTML="";
             } else if (Inv.includes("bathroomKey")){
                 eventTracker.bathroomDoorLocked = false;
-                narratorText.innerHTML = "You approach the door and try the handle, it's locked, you use the key you found to unlock the door. <br> do you go trough ?";
+                typeWriter("You approach the door and try the handle, it's locked, you use the key you found to unlock the door. <br> do you go trough ?", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
                     roomMemory.push(currentRoom);
@@ -170,7 +202,7 @@ function inspect(focus){
                     currentRoom = room[1];
                 }));
             }else {
-                narratorText.innerHTML = "you approach the bathroom door";
+                typeWriter("you approach the bathroom door", narratorText);
                 input.innerHTML="";
                 input.appendChild(createButton("Enter", () => {
                     roomMemory.push(currentRoom);
@@ -182,23 +214,23 @@ function inspect(focus){
         }else if (focus === "toilet"){
             image("toilet");
             if (Inv.includes("bathroomKey")){
-                narratorText.innerHTML="you inspect the toilet, there is nothing here.";
+                typeWriter("you inspect the toilet, there is nothing here.", narratorText);
                 input.innerHTML = '';
                 input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
 
             }else{
-                narratorText.innerHTML="you inspect the toilet, a shiny object hanging in the side catches your attention, as you inspect further you realize it's a key.";
+                typeWriter("you inspect the toilet, a shiny object hanging in the side catches your attention, as you inspect further you realize it's a key.", narratorText);
                 input.innerHTML = '';
                 input.appendChild(createButton("Take key", () => action("takeKey")));
                 input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
             }
         } else if (focus === "sink cabinet"){
             if(Inv.includes("SprayBottle")){
-                narratorText.innerHTML="you inspect the sink cabinet, there is nothing here.";
+                typeWriter("you inspect the sink cabinet, there is nothing here.",narratorText);
                 input.innerHTML = '';
                 input.appendChild(createButton("Go back", () => goBack("inspect"))); //Calling createButton function and gives it parameters to specify it.
             }else{
-                narratorText.innerHTML="you inspect the sink cabinet... <br> you find an empty spray bottle";
+                typeWriter("you inspect the sink cabinet... <br> you find an empty spray bottle", narratorText);
                 input.innerHTML = '';
                 input.appendChild(createButton("Take bottle", () => action("takeSprayBottle")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -208,7 +240,7 @@ function inspect(focus){
         if(focus === "firstDoor"){
                 inspected.bedroomDoor = true;
                 image("door");
-                narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..Bedroom.. written on it. <br> do you enter ?";
+                typeWriter("You approach the door, as you inspect it further you see the word ..Bedroom.. written on it. <br> do you enter ?", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
                     roomMemory.push(currentRoom);
@@ -219,11 +251,11 @@ function inspect(focus){
 
             }else if (focus === "secondDoor"){
                 image("door");
-                narratorText.innerHTML = "You approach the door, as you inspect it further you see the word ..storage.. written on it. <br> do you enter ?";
+                typeWriter("You approach the door, as you inspect it further you see the word ..storage.. written on it. <br> do you enter ?", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
                     if(!Inv.includes("storageKey")){
-                        narratorText.innerHTML = "As you try the handle you realize the door is locked."
+                        typeWriter("As you try the handle you realize the door is locked.", narratorText);
                         input.innerHTML = "";
                         input.appendChild(createButton("Go back", () => goBack("inspect")));
                     }
@@ -239,7 +271,7 @@ function inspect(focus){
 
             }else if (focus === "downHallway"){
                 image("downHallway");
-                narratorText.innerHTML = "You make your way to the end of the hallway. what you see is a living room and a kitchen adjacent to each other <br> where do you go ?";
+                typeWriter("You make your way to the end of the hallway. what you see is a living room and a kitchen adjacent to each other <br> where do you go ?", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter kitchen", () => {
                     roomMemory.push(currentRoom);
@@ -253,7 +285,7 @@ function inspect(focus){
                 ));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             }else if (focus === "Bathroom"){
-                narratorText.innerHTML = "You approach the bathroom door";
+                typeWriter("You approach the bathroom door", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Enter", () => {
                     roomMemory.push(currentRoom);
@@ -266,11 +298,11 @@ function inspect(focus){
         if(focus === "oldCloset"){
             image("oldCloset");
             if(!Inv.includes("safeCode")){
-                narratorText.innerHTML = "You approach the old closet, you open the door and find a safe. it's secrets safely locked away <br> you need a combination to open the safe";
+                typeWriter("You approach the old closet, you open the door and find a safe. it's secrets safely locked away <br> you need a combination to open the safe", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else{
-                narratorText.innerHTML = "You approach the old closet, you open the door and find a safe. it's secrets safely locked away <br> lucky for you, you have the code <br> what do you do..?";
+                typeWriter("You approach the old closet, you open the door and find a safe. it's secrets safely locked away <br> lucky for you, you have the code <br> what do you do..?", narratorText);
                 input.innerHTML = "";
                 input.appendChild(createButton("Open it", () => action("open")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -278,19 +310,19 @@ function inspect(focus){
             
         }else if(focus === "oldBed"){
             image("oldBed");
-            narratorText.innerHTML = "you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> there is nothing more to see here. ";
+            typeWriter("you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> there is nothing more to see here. ", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }else if(focus === "window"){
             image("window");
-            narratorText.innerHTML = "You approach the window. you can see trough the sheer curtains that it's boarded up from outside <br> from what little you can see trough the cracks you can make out that you are in a what seems to be a forrest. <br> the dim orange glow giving away the time of day.";
+            typeWriter("You approach the window. you can see trough the sheer curtains that it's boarded up from outside <br> from what little you can see trough the cracks you can make out that you are in a what seems to be a forrest. <br> the dim orange glow giving away the time of day.", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     }else if (currentRoom === room[3]){ // LivingRoom
         if(focus === "approach lady"){
             if(!plantEvent.includes("spatulaInEye")){
-                narratorText.innerHTML = "as you approach the old lady her eyes follow your every move... <br> you...?"
+                typeWriter("as you approach the old lady her eyes follow your every move... <br> you...?", narratorText);
                 const things = ["Speak","Stare even more back", "Make a silly face"];
                 input.innerHTML = ""; // clears input field
             
@@ -305,12 +337,12 @@ function inspect(focus){
             });
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else if (!Inv.includes("storageKey")){
-                narratorText.innerHTML = "The old lady looks from you to where the giant plant eye was before. she starts to cackle hysterically <br> then she starts to cough loudly and spits out a key <br> you are shocked but you slowly pick up the key from the floor <br> as you do the old lady abruptly stops to laugh and looks away"
+                typeWriter("The old lady looks from you to where the giant plant eye was before. she starts to cackle hysterically <br> then she starts to cough loudly and spits out a key <br> you are shocked but you slowly pick up the key from the floor <br> as you do the old lady abruptly stops to laugh and looks away", narratorText);
                 input.innerHTML = ""
                 Inv.push("storageKey");
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else{
-                narratorText.innerHTML = "You now have the key and the giant eye is gone. but as you look at the old lady you notice that she's not just looking somewhere random... <br> she is focusing her eyes on one spot on the fireplace..."
+                typeWriter("You now have the key and the giant eye is gone. but as you look at the old lady you notice that she's not just looking somewhere random... <br> she is focusing her eyes on one spot on the fireplace...", narratorText);
                 input.innerHTML = "";
                 eventTracker.push("staringFireplace");
                 input.appendChild(createButton("Inspect fireplace", () => inspect("Inspect Fireplace")));
@@ -320,11 +352,11 @@ function inspect(focus){
             
         }else if(focus === "Inspect Fireplace"){
             if(!eventTracker.includes("staringFireplace")){
-                narratorText.innerHTML = "You approach the fireplace inspecting it. the quiet crackling of embers quiet you'r mind. <br> there is nothing more to do here.";
+                typeWriter("You approach the fireplace inspecting it. the quiet crackling of embers quiet you'r mind. <br> there is nothing more to do here.", narratorText);
                 input.innerHTML ="";
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else{
-                narratorText.innerHTML = "You look at where the old lady is staring. you realize that she is staring at one of the bricks on the fireplace <br> it is slightly askew. you go up to it and realize that it is loose <br> as you pull it out you find a small note tucked behind. <br> it's the safe code!";
+                typeWriter("You look at where the old lady is staring. you realize that she is staring at one of the bricks on the fireplace <br> it is slightly askew. you go up to it and realize that it is loose <br> as you pull it out you find a small note tucked behind. <br> it's the safe code!", narratorText);
                 input.innerHTML ="";
                 Inv.push("safeCode");
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -369,11 +401,11 @@ function inspect(focus){
             }
 
         }else if(focus === "Inspect Sink"){
-            narratorText.innerHTML ="You look at the sink. when you try the faucet nothing happens. there is no water, <br> a black sludge like substance is coating the bottom of the sink... <br> there is nothing to do here..."
+            typeWriter("You look at the sink. when you try the faucet nothing happens. there is no water, <br> a black sludge like substance is coating the bottom of the sink... <br> there is nothing to do here...", narratorText);
             input.innerHTML = ""; // clears input field
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }else if(focus === "Approach plant"){
-            narratorText.innerHTML ="You approach the monsterous eye looking at you from the corner... <br> you...?"
+            typeWriter("You approach the monsterous eye looking at you from the corner... <br> you...?", narratorText);
             input.appendChild(createButton("Go back", () => goBack("inspect")));
             input.innerHTML ="";
             Inv.forEach(function (thing){
@@ -401,29 +433,29 @@ function action(action, item, button){
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         } else if (action === "enter") {
-            narratorText.innerHTML = "You go through the door";
+            typeWriter("You go through the door",narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         } else if (action === "takeSprayBottle"){
             Inv.push("SprayBottle");
-            narratorText.innerHTML = "You take the spray bottle";
+            typeWriter("You take the spray bottle", narratorText);
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     } else if (currentRoom === room[1]){//hallway action
-        narratorText.innerHTML = "You go through the door";
+        typeWriter("You go through the door", narratorText);
         input.innerHTML = "";
         input.appendChild(createButton("look around", () => lookAround()));
         input.appendChild(createButton("Go back", () => goBack()));
     } else if (currentRoom === room[2]){//bedroom action
         if (action === "enter"){
-            narratorText.innerHTML = "You go through the door";
+            typeWriter("You go through the door",narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         } else if (action =="open"){
-            narratorText.innerHTML = "you open the safe, inside you find some old documents. <br> one paper in particular catches you'r interest. as you inspect it further you realize it's a recipe for weed killer. <br> you take it with you...";
+            typeWriter("you open the safe, inside you find some old documents. <br> one paper in particular catches you'r interest. as you inspect it further you realize it's a recipe for weed killer. <br> you take it with you...", narratorText);
             Inv.push("recipe");
             input.innerHTML = "";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -431,20 +463,20 @@ function action(action, item, button){
         }   
     } else if (currentRoom === room[3]){//livingRoom action
         if (action === "enter"){
-            narratorText.innerHTML = "You step into the livingRoom";
+            typeWriter("You step into the livingRoom", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
         }else if(action === "Speak"){
-            narratorText.innerHTML = "You say hello to the old lady but she only keeps staring at you"
+            typeWriter("You say hello to the old lady but she only keeps staring at you", narratorText);
         }else if(action === "Stare even more back"){
-            narratorText.innerHTML ="You stare back at the old lady as if having a staring contest. some time passes before you feel you'r eyes start to sting making you close them. <br> the old lady makes no sound or movement still staring intensely"
+            typeWriter("You stare back at the old lady as if having a staring contest. some time passes before you feel you'r eyes start to sting making you close them. <br> the old lady makes no sound or movement still staring intensely", narratorText);
         }else if(action === "Make a silly face"){
-            narratorText.innerHTML = "You take a deep breath before contorting your face into every funny and silly expression you can manage hoping to get a reaction <br> the old lady makes no sound or movement still staring intensely <br> you feel you'r cheeks warm up as embarrassment fills you "
+            typeWriter("You take a deep breath before contorting your face into every funny and silly expression you can manage hoping to get a reaction <br> the old lady makes no sound or movement still staring intensely <br> you feel you'r cheeks warm up as embarrassment fills you ", narratorText);
         }
     } else if (currentRoom === room[4]){//Kitchen action
         if (action === "enter"){
-            narratorText.innerHTML = "You step into the Kitchen";
+            typeWriter("You step into the Kitchen", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
@@ -457,20 +489,20 @@ function action(action, item, button){
                 button.remove();
             }
 
-            narratorText.innerHTML += ` <br> You picked up ${item}`;
+            typeWriter(` <br> You picked up ${item}`, narratorText);
         }else if(action === "use"){
             if(item === "salt"){
-                narratorText.innerHTML = "you throw salt at the monster plants eye <br> you hear a loud roar as the eye closes shut and start to water. the vines quiver slightly"
+                typeWriter("you throw salt at the monster plants eye <br> you hear a loud roar as the eye closes shut and start to water. the vines quiver slightly", narratorText);
                 monsterHealth -= 1;
                 Inv = Inv.filter(i => i !== item);
                 healthTracker();
             }else if(item === "pepper"){
-                narratorText.innerHTML = "you decide to throw pepper at it, but as you do it back fires and you get a sneezing fit..."
+                typeWriter("you decide to throw pepper at it, but as you do it back fires and you get a sneezing fit...", narratorText);
                 playerHealth -= 1;
                 Inv = Inv.filter(i => i !== item);
                 healthTracker();
             }else if(item === "spatula"){
-                narratorText.innerHTML = "you pull out the spatula from your bag, wielding it like a weapon you charge at the plant poking it as hard as you can in the eye <br> the monster shrieks in response and retreats"
+                typeWriter("you pull out the spatula from your bag, wielding it like a weapon you charge at the plant poking it as hard as you can in the eye <br> the monster shrieks in response and retreats", narratorText);
                 monsterHealth -= 1;
                 plantEvent.push("spatulaInEye")
                 Inv = Inv.filter(i => i !== item);
@@ -482,7 +514,7 @@ function action(action, item, button){
         }
     } else if ( currentRoom === room[5]){//storageRoom action
         if (action === "enter"){
-            narratorText.innerHTML = "You enter the storageroom";
+            typeWriter("You enter the storageroom", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
@@ -496,14 +528,14 @@ function action(action, item, button){
 // removes previous room from memory array and puts it as current room. unless you are inspecting something.
 function goBack(focus){ 
     if (focus === "inspect"){
-        narratorText.innerHTML = "You go back";
+        typeWriter("You go back", narratorText);
         input.innerHTML = "";
         input.appendChild(createButton("look around", () => lookAround()));
     } else {
     input.innerHTML = "";
     let x = roomMemory.pop();
     currentRoom = x;
-    narratorText.innerHTML = "You go back";
+    typeWriter("You go back", narratorText);
     input.appendChild(createButton("look around", () => lookAround()));
     }
 };

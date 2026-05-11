@@ -1,7 +1,8 @@
-body {
+body, html {
+    overscroll-behavior: none;
     margin: 0;
     padding: 0;
-    background-color: black;
+    background-image: url("https://github.com/Ellie-404/AdventureGame/blob/main/img/woodPanelImg(1).png?raw=true");
 }
 
 #ending {
@@ -23,8 +24,17 @@ body {
 
 #header {
     text-align: center;
-    color: white;
     text-decoration: none;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 25px;
+    letter-spacing: -1.2px;
+    word-spacing: -5px;
+    color: rgb(227, 218, 201);
+    font-weight: 400;
+    text-decoration: none;
+    font-style: italic;
+    font-variant: normal;
+    text-transform: uppercase;
 }
 
 a {
@@ -42,7 +52,6 @@ a {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: rgba(121, 67, 1, 0.304);
     align-self: center;
     width: 80%;
     height: 100%;
@@ -56,17 +65,45 @@ a {
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); 
 }
 
 #startButton {
-    width: 100%;
+    width: 50%;
     padding: 10px;
 }
 
+
+button {
+    width: fit-content;
+    font-size: 1rem;
+    color: #fafafa;
+    text-transform: uppercase;
+    padding: 5px 5px;
+    border: 2px solid #fafafa;
+    background: #25252549;
+    box-shadow: 3px 3px #fafafa;
+    cursor: pointer;
+}
+
+button:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
 #imgBox {
+    position: relative;
     display: flex;
     width: 100%;
     justify-content: center;
+}
+
+#imgLink{
+    box-shadow: 0 0 80px 5px black;
+    filter: brightness(2); /*makes img brighter*/
 }
 
 img {
@@ -79,16 +116,23 @@ img {
     flex-direction: column;
     box-sizing: border-box;
     padding: 10px;
-    background-color: rgb(227, 218, 201);
+    
 }
 
 #choiceBox {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; 
     box-sizing: border-box;
     padding: 10px;
-    background-color: rgb(227, 218, 201);
     width: 100%;
+}
+
+#dialogBox, #choiceBox{
+    color: bisque;
+    background-blend-mode: lighten;
+    background-color: rgba(247, 190, 126, 0.146);
 }
 
 /* CSS */
@@ -143,4 +187,13 @@ img {
     width: 100%;
     height: auto;
     margin-top: auto;
+}
+
+/*-----------------------------------------small screen mode*/
+@media (max-width: 768px) {
+    img {
+        width: 100%;
+        height: 50vh;    /* 60% av skjermhøyden, juster etter smak */
+        object-fit: cover;
+    }
 }
