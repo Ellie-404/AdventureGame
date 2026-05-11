@@ -555,7 +555,7 @@ function image(focus){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }
     }else if (currentRoom === room[5]){ //Storage
-        imageLink.src = "https://images.pexels.com/photos/26346570/pexels-photo-26346570.jpeg";
+        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/StorageRoom.png?raw=true";
         if (focus === "door"){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
         }

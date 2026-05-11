@@ -1,20 +1,19 @@
-
-body{
+body {
     margin: 0;
     padding: 0;
-    background-image: url(https://images.pexels.com/photos/29546719/pexels-photo-29546719.jpeg);
+    background-color: black;
 }
 
-#ending{
+#ending {
     background-color: rgb(234, 200, 200);
 }
 
-#endText{
+#endText {
     color: red;
     font-size: large;
 }
 
-#main{
+#main {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -22,17 +21,24 @@ body{
 
 /*--------------------------HEADER------------------------------*/
 
-#header{
+#header {
     text-align: center;
+    color: white;
+    text-decoration: none;
 }
 
-.hidden{
-    display:none;
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.hidden {
+    display: none;
 }
 
 /*--------------------------CONTENT------------------------------*/
 
-#content{
+#content {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -43,7 +49,7 @@ body{
     justify-content: space-between;
 }
 
-#startBox{
+#startBox {
     width: 90%;
     height: 50%;
     align-self: center;
@@ -52,22 +58,23 @@ body{
     text-align: center;
 }
 
-#startButton{
+#startButton {
     width: 100%;
-    padding:10px;
+    padding: 10px;
 }
 
-#imgBox{
+#imgBox {
     display: flex;
     width: 100%;
     justify-content: center;
 }
-img{
+
+img {
     height: 500px;
     width: auto;
 }
 
-#dialogBox{
+#dialogBox {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -75,24 +82,64 @@ img{
     background-color: rgb(227, 218, 201);
 }
 
-#choiceBox{
+#choiceBox {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     padding: 10px;
-    background-color:rgb(227, 218, 201);
+    background-color: rgb(227, 218, 201);
     width: 100%;
 }
 
+/* CSS */
+.button-89 {
+    --b: 3px;
+    /* border thickness */
+    --s: 0.45em;
+    /* size of the corner */
+    --color: #f9f9fb;
 
-.itemImg{
+    padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
+    color: var(--color);
+    --_p: var(--s);
+    background: conic-gradient(from 90deg at var(--b) var(--b),
+            #ffffff00 90deg,
+            var(--color) 0) var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p)) calc(100% - var(--b) - 2 * var(--_p));
+    transition:
+        0.3s linear,
+        color 0s,
+        background-color 0s;
+    outline: var(--b) solid #ffffff00;
+    outline-offset: 0.6em;
+    font-size: 16px;
+
+    border: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-89:hover,
+.button-89:focus-visible {
+    --_p: 0px;
+    outline-color: var(--color);
+    outline-offset: 0.05em;
+}
+
+.button-89:active {
+    background: var(--color);
+    color: #000000;
+}
+
+.itemImg {
     height: 100px;
     width: 100px;
 }
 
 /*--------------------------FOOTER------------------------------*/
 
-#footer{
+#footer {
     width: 100%;
     height: auto;
     margin-top: auto;
