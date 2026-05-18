@@ -17,7 +17,7 @@ let currentRoom = room[0];
 let roomMemory = [];
 let plantEvent = [];
 
-const playerInv = {
+let playerInv = {
     bathroomKey: false,
     safeCode: false, 
     storageRoomKey: false, 
@@ -33,7 +33,7 @@ const playerInv = {
 };
 
 //Tracks events
-const eventTracker = {
+let eventTracker = {
     bathroomDoorLocked: true,
     staringFireplace: false,
     spatulaInEye: false,
@@ -41,13 +41,13 @@ const eventTracker = {
 };
 
 //Tracks if inspected objects
-const inspected = {
+let inspected = {
     bedroomDoor:false,
     storageroomDoor:false,
 };
 
 //tracks if entered a room
-const roomsVisited = {
+let roomsVisited = {
     hallway: false, 
     bedRoom: false, 
     livingRoom: false,
