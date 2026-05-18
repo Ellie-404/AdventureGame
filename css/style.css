@@ -1,199 +1,192 @@
 body, html {
     overscroll-behavior: none;
+    color: bisque;
     margin: 0;
     padding: 0;
     background-image: url("https://github.com/Ellie-404/AdventureGame/blob/main/img/woodPanelImg(1).png?raw=true");
 }
-
 #ending {
     background-color: rgb(234, 200, 200);
 }
-
 #endText {
     color: red;
     font-size: large;
 }
-
 #main {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
-
 /*--------------------------HEADER------------------------------*/
-
 #header {
+    flex-shrink: 0;
+    height: 10vh;
     text-align: center;
-    text-decoration: none;
     font-family: "Courier New", Courier, monospace;
     font-size: 25px;
     letter-spacing: -1.2px;
     word-spacing: -5px;
     color: rgb(227, 218, 201);
     font-weight: 400;
-    text-decoration: none;
     font-style: italic;
     font-variant: normal;
     text-transform: uppercase;
 }
-
 a {
     text-decoration: none;
     color: inherit;
 }
-
 .hidden {
     display: none;
 }
-
 /*--------------------------CONTENT------------------------------*/
-
 #content {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     align-self: center;
     width: 80%;
-    height: 100%;
-    justify-content: space-between;
+    overflow: hidden;
+}
+#healthBox {
+    flex-shrink: 0;
+    display: flex;
+    gap: 50px;
+}
+#imgBox {
+    flex: 1;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+#imgLink {
+    box-shadow: 0 0 80px 5px black;
+    filter: brightness(2);
+}
+img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+#dialogBox {
+    flex-shrink: 1;
+    min-height: 0;
+    max-height: 20vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 6px 10px;
 }
 
-#startBox {
-    width: 90%;
-    height: 50%;
-    align-self: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%); 
+#dialogBox h3 {
+    margin: 0 0 4px 0;  /* ← fjerner default margin på h3 */
 }
 
-#startButton {
-    width: 50%;
-    padding: 10px;
+#dialogBox p {
+    margin: 0;          /* ← fjerner default margin på p */
 }
 
+#choiceBox {
+    flex-shrink: 1;
+    min-height: 0;
+    max-height: 18vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    width: 100%;
+}
 
+#choiceBox h3 {
+    margin: 0 0 4px 0;
+}
+
+#choiceBoxButtons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 6px;
+    width: 100%;
+    gap: 10px;  /* ← litt mindre gap */
+}
+
+#dialogBox, #choiceBox {
+    background-blend-mode: lighten;
+    background-color: rgba(247, 190, 126, 0.146);
+}
 button {
     width: fit-content;
     font-size: 1rem;
-    color: #fafafa;
     text-transform: uppercase;
     padding: 5px 5px;
-    border: 2px solid #fafafa;
+    color: bisque;
+    border: 2px solid bisque;
     background: #25252549;
-    box-shadow: 3px 3px #fafafa;
     cursor: pointer;
 }
-
 button:active {
     box-shadow: none;
     transform: translate(3px, 3px);
 }
-
-#imgBox {
-    position: relative;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-#imgLink{
-    box-shadow: 0 0 80px 5px black;
-    filter: brightness(2); /*makes img brighter*/
-}
-
-img {
-    height: 500px;
-    width: auto;
-}
-
-#dialogBox {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 10px;
-    
-}
-
-#choiceBox {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center; 
-    box-sizing: border-box;
-    padding: 10px;
-    width: 100%;
-}
-
-#dialogBox, #choiceBox{
-    color: bisque;
-    background-blend-mode: lighten;
-    background-color: rgba(247, 190, 126, 0.146);
-}
-
 /* CSS */
 .button-89 {
     --b: 3px;
-    /* border thickness */
     --s: 0.45em;
-    /* size of the corner */
     --color: #f9f9fb;
-
     padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
     color: var(--color);
     --_p: var(--s);
     background: conic-gradient(from 90deg at var(--b) var(--b),
             #ffffff00 90deg,
             var(--color) 0) var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p)) calc(100% - var(--b) - 2 * var(--_p));
-    transition:
-        0.3s linear,
-        color 0s,
-        background-color 0s;
+    transition: 0.3s linear, color 0s, background-color 0s;
     outline: var(--b) solid #ffffff00;
     outline-offset: 0.6em;
     font-size: 16px;
-
     border: 0;
-
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
 }
-
 .button-89:hover,
 .button-89:focus-visible {
     --_p: 0px;
     outline-color: var(--color);
     outline-offset: 0.05em;
 }
-
 .button-89:active {
     background: var(--color);
     color: #000000;
 }
-
 .itemImg {
     height: 100px;
     width: 100px;
 }
-
 /*--------------------------FOOTER------------------------------*/
-
 #footer {
-    width: 100%;
-    height: auto;
-    margin-top: auto;
+    display: none;
 }
-
-/*-----------------------------------------small screen mode*/
+/*--------------------------MOBIL------------------------------*/
 @media (max-width: 768px) {
-    img {
+    #content {
         width: 100%;
-        height: 50vh;    /* 60% av skjermhøyden, juster etter smak */
-        object-fit: cover;
+    }
+    #imgBox {
+        min-height: 100px;
+    }
+    img {
+        max-height: 100%;
+        max-width: 100%;
     }
 }

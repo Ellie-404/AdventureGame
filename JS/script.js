@@ -38,7 +38,7 @@ const roomsVisited = {
 };
 
 const narratorText = document.getElementById("narrator");
-const input = document.querySelector("#choiceBox");
+const input = document.querySelector("#choiceBoxButtons");
 const goBackBtn = document.querySelector("#goBackBtn");
 const imageLink = document.getElementById("imgLink");
 
@@ -69,6 +69,7 @@ function playRoomSound(room) {
         "bathroom": new Audio("sound/freesound_community-dripping-tapwater-27783.mp3"),
         "hallway": new Audio("sound/freesound_community-wood-creaking-30692.mp3"),
         "bedroom": new Audio("sound/tanweraman-howling-hissy-blizard-350418.mp3"),
+        "livingroom": new Audio("sound/freesound_community-rocking-chair-grand-final-78248.mp3"),
     };
 
     if (sounds[room]) {
@@ -169,6 +170,7 @@ function lookAround(){
         input.appendChild(createButton("Go back", () => goBack()));
 
     } else if (currentRoom === room[3]){ //Living room
+        playRoomSound("livingroom");
         if(roomsVisited.livingRoom === false){
             typeWriter("You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?", narratorText);
             roomsVisited.livingRoom = true;
