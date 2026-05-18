@@ -244,10 +244,19 @@ function lookAround(){
         input.appendChild(createButton("Go back", () => goBack()));
         input.appendChild(createButton("Inspect shelves", () => inspect("shelves")));
     } else if (currentRoom === room[6]){
-        typeWriter("As you step outside something something monster appears... cue rock paper scissor maybe ? ", narratorText)
+        typeWriter("as you exit the cabin you are suddenly ambushed by the monster. <br> You enter into a vicious battle with the plant monster. <br> you ?", narratorText)
+        const things = ["Rock","Paper", "Scissor"];
         input.innerHTML = ""; // clears input field
         
-        input.appendChild(createButton("Go back", () => goBack()));
+        things.forEach(function (thing){
+            
+            const button = document.createElement("button");
+            button.textContent = `${thing}`;
+            button.addEventListener("click", function(){
+                RockPaperScissor(thing);
+            });
+            input.appendChild(button); //inserts buttons into "parent" Input div
+        });
     }else {
         console.log("ERROR: lookAround function did not work as intended")
     }
@@ -735,5 +744,37 @@ function image(focus){
             imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
     }else{
         console.log("Image function did not work as intended...");
+    }
+};
+
+function RockPaperScissor(thing){
+    const box = ["Rock","Paper","Scissor"];
+    let number = Math.floor(Math.random() * 3);
+
+    let computerChoose = box[number];
+
+    if(playerChoose === "Rock" && computerChoose === "Paper"){
+        typeWriter("You loose", narratorText)
+        playerHealth - 10%;
+        console.log("You lose");
+    } 
+    else if(playerChoose === "Scissor" && computerChoose === "Rock"){
+        typeWriter("You loose", narratorText)
+        playerHealth - 10%;
+        console.log("You lose");
+    }
+    else if(playerChoose === "Paper" && computerChoose === "Scissor"){
+        typeWriter("You loose", narratorText)
+        playerHealth - 10%;
+        console.log("You lose");
+    }
+    else if(playerChoose === computerChoose){
+        typeWriter("You draw", narratorText)
+        console.log("Draw");
+    }
+    else{
+        typeWriter("You win!", narratorText)
+        monsterHealth - 10%;
+        console.log("You win");
     }
 };
