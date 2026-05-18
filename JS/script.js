@@ -497,9 +497,17 @@ function inspect(focus){
             }
 
         }else if(focus === "Inspect Sink"){
-            typeWriter("You look at the sink. when you try the faucet nothing happens. there is no water, <br> a black sludge like substance is coating the bottom of the sink... <br> there is nothing to do here...", narratorText);
-            input.innerHTML = ""; // clears input field
-            input.appendChild(createButton("Go back", () => goBack("inspect")));
+            if(playerInv.sprayBottle && playerInv.ingredient1 && playerInv.ingredient2 && playerInv.recipe){
+                typeWriter("You now have all the items listed on the recipe you found got from the safe, do you wish to combine them ?", narratorText);
+                input.innerHTML = ""; // clears input field
+                input.appendChild(createButton("Combine", () => action("combine")));
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
+            }else {
+                typeWriter("You look at the sink. when you try the faucet nothing happens. there is no water, <br> a black sludge like substance is coating the bottom of the sink... <br> there is nothing to do here...", narratorText);
+                input.innerHTML = ""; // clears input field
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
+            }
+            
         }else if(focus === "Approach plant"){
             typeWriter("You approach the monsterous eye looking at you from the corner... <br> you...?", narratorText);
             input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -520,8 +528,11 @@ function inspect(focus){
             if(playerInv.ingredient1 === false){
                 typeWriter("there is a weird looking bottle with some unknown substance with the label `Ingredient Nr1` written on it <br> Do you take it ? ", narratorText);
                 input.appendChild(createButton("Take it", () => action("take")));
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
+            }else if (playerInv.ingredient1){
+                typeWriter("there is nothing more for you to get here <br> ", narratorText)
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
-            input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     }else{
         console.log("ERROR: inspect function did not work as intended")
@@ -638,6 +649,11 @@ function action(action, item, button){
             if (button){
                 button.remove();
             }
+        }else if (action === "combine"){
+            typeWriter("you combine the item's as instructed at the sink", narratorText);
+            playerInv.weedKiller = true;
+            input.innerHTML ="";
+            input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     } else if ( currentRoom === room[5]){//storageRoom action
         if (action === "enter"){
