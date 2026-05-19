@@ -247,7 +247,7 @@ function lookAround(){
         input.innerHTML = ""; // clears input field
         input.appendChild(createButton("Go back", () => goBack()));
         input.appendChild(createButton("Inspect shelves", () => inspect("shelves")));
-    } else if (currentRoom === room[6]){
+    } else if (currentRoom === room[6]){ //Outside
         typeWriter("as you exit the cabin you are suddenly ambushed by the monster. <br> You enter into a vicious battle with the plant monster. <br> you ?", narratorText)
         const things = ["Rock","Paper", "Scissor"];
         input.innerHTML = ""; // clears input field
@@ -474,6 +474,7 @@ function inspect(focus){
                 input.innerHTML ="";
                 input.appendChild(createButton("Exit", () => action("Exit")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
+                console.log("exit cabin funker")
             }
         }
 
@@ -558,20 +559,20 @@ function inspect(focus){
 };
 
 //makes it so the player can perform an action with the object in focus.
-function action(action, item, button){
+function action(type, item, button){
     if (currentRoom === room[0]){ //Bathroom logic
-        if (action === "takeKey"){
+        if (type === "takeKey"){
             playerInv.bathroomKey = true;
             narratorText.innerHTML = "You take the key";
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
-        } else if (action === "enter") {
+        } else if (type === "enter") {
             doorSound.play();
             typeWriter("You go through the door",narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
-        } else if (action === "takeSprayBottle"){
+        } else if (type === "takeSprayBottle"){
             Inv.push("SprayBottle");
             playerInv.sprayBottle = true;
             typeWriter("You take the spray bottle", narratorText);
@@ -585,12 +586,12 @@ function action(action, item, button){
         input.appendChild(createButton("look around", () => lookAround()));
         input.appendChild(createButton("Go back", () => goBack()));
     } else if (currentRoom === room[2]){//bedroom action
-        if (action === "enter"){
+        if (type === "enter"){
             typeWriter("You go through the door",narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
-        } else if (action =="open"){
+        } else if (type === "open"){
             typeWriter("you open the safe, inside you find some old documents. <br> one paper in particular catches you'r interest. as you inspect it further you realize it's a recipe for weed killer. <br> you take it with you...", narratorText);
             playerInv.recipe = true;
             input.innerHTML = "";
@@ -598,18 +599,18 @@ function action(action, item, button){
             
         }   
     } else if (currentRoom === room[3]){//livingRoom action
-        if (action === "enter"){
+        if (type === "enter"){
             typeWriter("You step into the livingRoom", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
-        }else if(action === "Speak"){
+        }else if(type === "Speak"){
             typeWriter("You say hello to the old lady but she only keeps staring at you", narratorText);
-        }else if(action === "Stare even more back"){
+        }else if(type === "Stare even more back"){
             typeWriter("You stare back at the old lady as if having a staring contest. some time passes before you feel you'r eyes start to sting making you close them. <br> the old lady makes no sound or movement still staring intensely", narratorText);
-        }else if(action === "Make a silly face"){
+        }else if(type === "Make a silly face"){
             typeWriter("You take a deep breath before contorting your face into every funny and silly expression you can manage hoping to get a reaction <br> the old lady makes no sound or movement still staring intensely <br> you feel you'r cheeks warm up as embarrassment fills you ", narratorText);
-        }else if (action === "vineRemover"){
+        }else if (type === "vineRemover"){
             if(playerInv.weedKiller === false){
                 typeWriter("You try and pry the vines away from the door, it's useless", narratorText);
                 input.innerHTML = "";
@@ -621,7 +622,7 @@ function action(action, item, button){
                 input.appendChild(createButton("Exit cabin", () => action("Exit")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
-        }else if (action === "Exit"){
+        }else if (type === "Exit"){
             doorSound.play();
             typeWriter("You exit the cabin", narratorText);
             input.innerHTML = "";
@@ -630,12 +631,12 @@ function action(action, item, button){
             input.appendChild(createButton("look around", () => lookAround()));
         }
     } else if (currentRoom === room[4]){//Kitchen action
-        if (action === "enter"){
+        if (type === "enter"){
             typeWriter("You step into the Kitchen", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
-        }else if(action === "grab"){
+        }else if(type === "grab"){
             if (!Inv.includes(item)){
                 Inv.push(item);
                 playerInv[item] = true;
@@ -646,7 +647,7 @@ function action(action, item, button){
             }
 
             typeWriter(` <br> You picked up ${item}`, narratorText);
-        }else if(action === "use"){
+        }else if(type === "use"){
             if(item === "salt"){
                 typeWriter("you throw salt at the monster plants eye <br> you hear a loud roar as the eye closes shut and start to water. the vines quiver slightly", narratorText);
                 monsterHealth -= 1;
@@ -667,19 +668,19 @@ function action(action, item, button){
             if (button){
                 button.remove();
             }
-        }else if (action === "combine"){
+        }else if (type === "combine"){
             typeWriter("you combine the item's as instructed at the sink", narratorText);
             playerInv.weedKiller = true;
             input.innerHTML ="";
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
     } else if ( currentRoom === room[5]){//storageRoom action
-        if (action === "enter"){
+        if (type === "enter"){
             typeWriter("You enter the storageroom", narratorText);
             input.innerHTML = "";
             input.appendChild(createButton("look around", () => lookAround()));
             input.appendChild(createButton("Go back", () => goBack()));
-        } else if (action === "take"){
+        } else if (type === "take"){
             typeWriter("You take the weird bottle", narratorText);
             playerInv.ingredient1 = true;
             input.appendChild(createButton("Go back", () => goBack("inspect")));
@@ -708,14 +709,51 @@ function goBack(focus){
 // gives player ending screen type based on choices etc
 function theEnd(type){
     const ending = document.getElementById("endText");
-    if (theEnd === "sleep"){
+    if (type === "sleep"){
         ending.innerHTML = "You went to sleep and died...";
     }
 };
 
 // gives player winner screen.
-function winnerDinner(){
+function winnerDinner(type){
 
+};
+
+function RockPaperScissor(thing){
+    const box = ["Rock","Paper","Scissor"];
+    let number = Math.floor(Math.random() * 3);
+    let computerChoose = box[number];
+    let playerChoose = thing
+
+    if(playerChoose === "Rock" && computerChoose === "Paper"){
+        typeWriter("You loose", narratorText);
+        playerHealth -= playerHealth * 0.10
+        console.log("You lose");
+        healthTracker();
+    } 
+    else if(playerChoose === "Scissor" && computerChoose === "Rock"){
+        typeWriter("You loose", narratorText);
+        playerHealth -= playerHealth * 0.10
+        console.log("You lose");
+        healthTracker();
+    }
+    else if(playerChoose === "Paper" && computerChoose === "Scissor"){
+        typeWriter("You loose", narratorText);
+        playerHealth -= playerHealth * 0.10
+        console.log("You lose");
+        healthTracker();
+    }
+    else if(playerChoose === computerChoose){
+        typeWriter("You draw", narratorText);
+        console.log("Draw");
+        healthTracker();
+    }
+    else{
+        typeWriter("You win!", narratorText);
+        monsterHealth -= monsterHealth * 0.10
+        console.log("You win");
+        healthTracker();
+    }
 };
 
 // Changes game image based on location etc
@@ -744,11 +782,15 @@ function image(focus){
         imageLink.src = "img/LivingRoomLady.png";
         
     }else if (currentRoom === room[4]){ //Kitchen
-        imageLink.src = "img/Kitchen.png";
-        
+        if (eventTracker.spatulaInEye){
+            imageLink.src = "img/kitchenPlantEyeGone.png";
+        }else {
+            imageLink.src = "img/Kitchen.png";
+        }
     }else if (currentRoom === room[5]){ //Storage
         imageLink.src = "img/StorageRoom.png";
-        
+    }else if (currentRoom === room[6]){ //Outside
+        imageLink.src = "img/StorageRoom.png";
     }else if (focus === "door"){
             imageLink.src = "img/InspectDoor.png";
     }else{
@@ -756,34 +798,3 @@ function image(focus){
     }
 };
 
-function RockPaperScissor(thing){
-    const box = ["Rock","Paper","Scissor"];
-    let number = Math.floor(Math.random() * 3);
-
-    let computerChoose = box[number];
-
-    if(playerChoose === "Rock" && computerChoose === "Paper"){
-        typeWriter("You loose", narratorText);
-        playerHealth - 10%
-        console.log("You lose");
-    } 
-    else if(playerChoose === "Scissor" && computerChoose === "Rock"){
-        typeWriter("You loose", narratorText);
-        playerHealth - 10%
-        console.log("You lose");
-    }
-    else if(playerChoose === "Paper" && computerChoose === "Scissor"){
-        typeWriter("You loose", narratorText);
-        playerHealth - 10%
-        console.log("You lose");
-    }
-    else if(playerChoose === computerChoose){
-        typeWriter("You draw", narratorText);
-        console.log("Draw");
-    }
-    else{
-        typeWriter("You win!", narratorText);
-        monsterHealth - 10%
-        console.log("You win");
-    }
-};
