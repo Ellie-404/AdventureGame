@@ -2,9 +2,9 @@
 let Inv = []; //Player Inventory
 
 // Bathroom items: Spray bottle, BathroomKey, barOfSoap
-// Bedroom items:   SafeWithRecipe
-// Storage room items:  Ingredient1
-// Kitchen room items: Salt, Pepper, Spatula, Ingredient2
+// Bedroom items:   SafeWithRecipe, Ingredient2
+// Storage room items:  Ingredient1, broken rifle
+// Kitchen room items: Salt, Pepper, Spatula
 // Living room items: SafeCode, StorageKey
 
 //Combine: Ingredient1 + Ingredient2 + SprayBottle = WeedKiller
@@ -13,7 +13,7 @@ const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storage
 
 let playerHealth = 100;
 let monsterHealth = 100;
-let currentRoom = room[0];
+let currentRoom = room[3];
 let roomMemory = [];
 let plantEvent = [];
 
@@ -204,11 +204,15 @@ function lookAround(){
 
     } else if (currentRoom === room[3]){ //Living room
         playRoomSound("livingroom");
-        if(roomsVisited.livingRoom === false){
+        if(roomsVisited.livingRoom === false && playerInv.storageRoomKey === false){
             typeWriter("You look around you... you are standing in the living room. <br> just as you step inside you spot an old lady sitting in a rocking chair in the corner. you jump a little as her head quickly snaps in you'r direction <br> she fixes you with a blank but intense stare <br> what do you do...?", narratorText);
             roomsVisited.livingRoom = true;
-        } else if (roomsVisited.livingRoom){
+        } else if (roomsVisited.livingRoom && playerInv.storageRoomKey === false){
             typeWriter("You look around you... you are standing in the living room. <br> The old lady is still sitting in the corner just staring at you... <br> What do you do...?", narratorText)
+        }else if (roomsVisited.livingRoom && playerInv.storageRoomKey){
+            typeWriter("You now have the key and the giant eye is gone. but as you look at the old lady you notice that she's not just looking somewhere random... <br> she is focusing her eyes on one spot on the fireplace...", narratorText);
+            input.innerHTML = "";
+            eventTracker.staringFireplace = true;
         }
         const things = ["approach lady","Inspect Fireplace","Inspect entrance"];
         input.innerHTML = ""; // clears input field
@@ -408,8 +412,14 @@ function inspect(focus){
             
         }else if(focus === "oldBed"){
             image("oldBed");
-            typeWriter("you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> there is nothing more to see here. ", narratorText);
-            input.innerHTML = "";
+            if (playerInv.ingredient2 === false){
+                typeWriter("you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> something under the bed catches you'r eye, it's a bottle labeled `Ingredient 2` <br> You take it. " , narratorText);
+                playerInv.ingredient2 = true;
+                input.innerHTML = "";
+            }else if (playerInv.ingredient2){
+                typeWriter("you walk towards the old bed. it's vacancy apparent by the thick layer of dust covering it like a blanket. <br> there is nothing more to see here. ", narratorText);
+                input.innerHTML = "";
+            }
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }else if(focus === "window"){
             image("window");
@@ -433,16 +443,10 @@ function inspect(focus){
                     input.appendChild(button); //inserts buttons into "parent" Input div
                 });
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
-            } else if (eventTracker.spatulaInEye){
+            } else if (eventTracker.spatulaInEye && playerInv.storageRoomKey === false){
                 typeWriter("The old lady looks from you to where the giant plant eye was before. she starts to cackle hysterically <br> then she starts to cough loudly and spits out a key <br> you are shocked but you slowly pick up the key from the floor <br> as you do the old lady abruptly stops to laugh and looks away", narratorText);
                 input.innerHTML = ""
                 playerInv.storageRoomKey = true;
-                input.appendChild(createButton("Go back", () => goBack("inspect")));
-            } else if (playerInv.storageRoomKey){
-                typeWriter("You now have the key and the giant eye is gone. but as you look at the old lady you notice that she's not just looking somewhere random... <br> she is focusing her eyes on one spot on the fireplace...", narratorText);
-                input.innerHTML = "";
-                eventTracker.staringFireplace = true;
-                input.appendChild(createButton("Inspect fireplace", () => inspect("Inspect Fireplace")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
             
@@ -451,20 +455,25 @@ function inspect(focus){
                 typeWriter("You approach the fireplace inspecting it. the quiet crackling of embers quiet you'r mind. <br> there is nothing more to do here.", narratorText);
                 input.innerHTML ="";
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
-            } else if (eventTracker.staringFireplace){
+            }else{
                 typeWriter("You look at where the old lady is staring. you realize that she is staring at one of the bricks on the fireplace <br> it is slightly askew. you go up to it and realize that it is loose <br> as you pull it out you find a small note tucked behind. <br> it's the safe code!", narratorText);
                 input.innerHTML ="";
-                playerInv.safeCode = true;
+                playerInv.safeCode = true
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
         } else if (focus === "Inspect entrance"){
             
             if (eventTracker.weedKillerUsed === false){
-                typeWriter("You approach the what looks to be the entrance door... huge vines covers the door stopping you from leaving. <br> What do you do ?", narratorText);
+                typeWriter("You approach the what looks to be the exit door... huge vines covers the door stopping you from leaving. <br> What do you do ?", narratorText);
                 input.innerHTML ="";
                 input.appendChild(createButton("Try and remove the vines", () => action("vineRemover")));
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
                 
+            }else if (eventTracker.weedKillerUsed){
+                typeWriter("You approach the what exit door... huge vines covers that once blocked the door is gone <br> What do you do ?", narratorText);
+                input.innerHTML ="";
+                input.appendChild(createButton("Exit", () => action("Exit")));
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
         }
 
@@ -500,9 +509,9 @@ function inspect(focus){
                 playerInv.pepper &&
                 playerInv.spatula
             ){
-                narratorText.innerHTML ="you start rummage trough each cupboard. you have already grabbed each item here:  "
+                typeWriter("you start rummage trough each cupboard. you have already grabbed each item here:  ", narratorText);
             } else{
-                narratorText.innerHTML ="you start rummage trough each cupboard. you find a few items:...  "
+                typeWriter("you start rummage trough each cupboard. you find a few items:...  ", narratorText);
             }
 
         }else if(focus === "Inspect Sink"){
@@ -531,7 +540,7 @@ function inspect(focus){
             });
             input.appendChild(createButton("Go back", () => goBack("inspect")));
         }
-    }else if(currentRoom === room[5]){ // StorageRoom
+    }else if (currentRoom === room[5]){ // StorageRoom
         if (focus === "shelves"){
                 typeWriter("You take a closer look at the items on the shelves. <br> ", narratorText)
             if(playerInv.ingredient1 === false){
@@ -609,8 +618,8 @@ function action(action, item, button){
                 eventTracker.weedKillerUsed = true;
                 typeWriter("You use the weedkiller you made earlier and spray it on the vines. you hear the monster shriek before the vines retract away from the door <br> What's ur next move ?", narratorText);
                 input.innerHTML = "";
-                input.appendChild(createButton("Go back", () => goBack("inspect")));
                 input.appendChild(createButton("Exit cabin", () => action("Exit")));
+                input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
         }else if (action === "Exit"){
             doorSound.play();
@@ -713,35 +722,35 @@ function winnerDinner(){
 function image(focus){
     console.log("image() running", currentRoom);
     if (currentRoom === room[0]){ //Bathroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bathroom.png?raw=true";
+        imageLink.src = "img/Bathroom.png";
         if(focus === "toilet"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/ToiletKey.png?raw=true";
+            imageLink.src = "img/ToiletKey.png";
         }
     }else if (currentRoom === room[1]){ //Hallway
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Hallway.png?raw=true";
+        imageLink.src = "img/Hallway.png";
         if (focus === "downHallway"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Untitled%20design.png?raw=true";
+            imageLink.src = "img/Hallway.png";
         }
     }else if (currentRoom === room[2]){ //Bedroom
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedRoom.png?raw=true";
+        imageLink.src = "img/BedRoom.png";
         if (focus === "oldCloset"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Designer%20(4).png?raw=true";
+            imageLink.src = "img/OldCloset.png";
         }else if (focus === "oldBed"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Bed.png?raw=true";
+            imageLink.src = "img/Bed.png";
         }else if (focus === "window"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/BedroomWindow.png?raw=true";
+            imageLink.src = "img/BedroomWindow.png";
         }
     }else if (currentRoom === room[3]){ //Living room
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/LivingRoomLady.png?raw=true";
+        imageLink.src = "img/LivingRoomLady.png";
         
     }else if (currentRoom === room[4]){ //Kitchen
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/Kitchen.png?raw=true";
+        imageLink.src = "img/Kitchen.png";
         
     }else if (currentRoom === room[5]){ //Storage
-        imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/StorageRoom.png?raw=true";
+        imageLink.src = "img/StorageRoom.png";
         
     }else if (focus === "door"){
-            imageLink.src = "https://github.com/Ellie-404/AdventureGame/blob/main/img/InspectDoor.png?raw=true";
+            imageLink.src = "img/InspectDoor.png";
     }else{
         console.log("Image function did not work as intended...");
     }
@@ -754,27 +763,27 @@ function RockPaperScissor(thing){
     let computerChoose = box[number];
 
     if(playerChoose === "Rock" && computerChoose === "Paper"){
-        typeWriter("You loose", narratorText)
-        playerHealth - 10%;
+        typeWriter("You loose", narratorText);
+        playerHealth - 10%
         console.log("You lose");
     } 
     else if(playerChoose === "Scissor" && computerChoose === "Rock"){
-        typeWriter("You loose", narratorText)
-        playerHealth - 10%;
+        typeWriter("You loose", narratorText);
+        playerHealth - 10%
         console.log("You lose");
     }
     else if(playerChoose === "Paper" && computerChoose === "Scissor"){
-        typeWriter("You loose", narratorText)
-        playerHealth - 10%;
+        typeWriter("You loose", narratorText);
+        playerHealth - 10%
         console.log("You lose");
     }
     else if(playerChoose === computerChoose){
-        typeWriter("You draw", narratorText)
+        typeWriter("You draw", narratorText);
         console.log("Draw");
     }
     else{
-        typeWriter("You win!", narratorText)
-        monsterHealth - 10%;
+        typeWriter("You win!", narratorText);
+        monsterHealth - 10%
         console.log("You win");
     }
 };
