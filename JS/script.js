@@ -13,7 +13,7 @@ const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storage
 
 let playerHealth = 100;
 let monsterHealth = 100;
-let currentRoom = room[3];
+let currentRoom = room[1];
 let roomMemory = [];
 let plantEvent = [];
 
@@ -444,6 +444,7 @@ function inspect(focus){
                 });
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             } else if (eventTracker.spatulaInEye && playerInv.storageRoomKey === false){
+                image("keySpitt");
                 typeWriter("The old lady looks from you to where the giant plant eye was before. she starts to cackle hysterically <br> then she starts to cough loudly and spits out a key <br> you are shocked but you slowly pick up the key from the floor <br> as you do the old lady abruptly stops to laugh and looks away", narratorText);
                 input.innerHTML = ""
                 playerInv.storageRoomKey = true;
@@ -451,6 +452,7 @@ function inspect(focus){
             }
             
         }else if(focus === "Inspect Fireplace"){
+            image("fireplace");
             if(eventTracker.staringFireplace === false){
                 typeWriter("You approach the fireplace inspecting it. the quiet crackling of embers quiet you'r mind. <br> there is nothing more to do here.", narratorText);
                 input.innerHTML ="";
@@ -462,7 +464,7 @@ function inspect(focus){
                 input.appendChild(createButton("Go back", () => goBack("inspect")));
             }
         } else if (focus === "Inspect entrance"){
-            
+            image("exit")
             if (eventTracker.weedKillerUsed === false){
                 typeWriter("You approach the what looks to be the exit door... huge vines covers the door stopping you from leaving. <br> What do you do ?", narratorText);
                 input.innerHTML ="";
@@ -516,6 +518,7 @@ function inspect(focus){
             }
 
         }else if(focus === "Inspect Sink"){
+            image("sink");
             if(playerInv.sprayBottle && playerInv.ingredient1 && playerInv.ingredient2 && playerInv.recipe){
                 typeWriter("You now have all the items listed on the recipe you found got from the safe, do you wish to combine them ?", narratorText);
                 input.innerHTML = ""; // clears input field
@@ -780,12 +783,28 @@ function image(focus){
         }
     }else if (currentRoom === room[3]){ //Living room
         imageLink.src = "img/LivingRoomLady.png";
+        if (focus === "KeySpitt"){
+            imageLink.src = "img/keySpitting.png";
+        }
+
+        if (focus === "fireplace"){
+            imageLink.src = "img/Fireplace.png";
+        }else if (focus === "exit"){
+            if (eventTracker.weedKillerUsed === false){
+                imageLink.src = "img/ExitVinesBlocked.png";
+            }else if (eventTracker.weedKillerUsed){
+                imageLink.src = "";
+            }
+        }
         
     }else if (currentRoom === room[4]){ //Kitchen
         if (eventTracker.spatulaInEye){
             imageLink.src = "img/kitchenPlantEyeGone.png";
-        }else {
+        } else {
             imageLink.src = "img/Kitchen.png";
+        }
+        if (focus === "sink"){
+            imageLink.src = "img/KitchenSink.png";
         }
     }else if (currentRoom === room[5]){ //Storage
         imageLink.src = "img/StorageRoom.png";
