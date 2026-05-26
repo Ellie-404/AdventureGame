@@ -11,8 +11,8 @@ let Inv = []; //Player Inventory
 
 const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storageRoom","outside"]; //list of rooms
 
-let playerHealth = 100;
-let monsterHealth = 100;
+let playerHealth = 3;
+let monsterHealth = 5;
 let currentRoom = room[1];
 let roomMemory = [];
 let plantEvent = [];
@@ -65,7 +65,7 @@ const healthMonsterDiv = document.getElementById("healthMonster");
 
 const doorSound = new Audio("sound/dragon-studio-door-opening-sfx-454243.mp3");
 
-// Updates player and monster health
+/* Updates player and monster health
 function healthTracker(){
 healthPlayerDiv.innerHTML = "Player HP:" + playerHealth;
 healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
@@ -74,6 +74,19 @@ healthMonsterDiv.innerHTML = "Monster HP:" + monsterHealth;
     }else if (monsterHealth === 0){
         winnerDinner();
     }
+};
+*/
+
+// test:
+function healthTracker(){
+    healthPlayerDiv.innerHTML = "Player lives: " + "♥".repeat(playerHealth);
+    healthMonsterDiv.innerHTML = "Monster lives: " + "♥ ".repeat(monsterHealth);
+    if(playerHealth <= 0){
+        theEnd();
+    } else if (monsterHealth <= 0){
+        winnerDinner();
+    }
+    console.log("healtTracker running!")
 };
 
 let currentSound = null;  // keeps track of sounds playing
@@ -658,7 +671,6 @@ function action(type, item, button){
                 healthTracker();
             }else if(item === "pepper"){
                 typeWriter("you decide to throw pepper at it, but as you do it back fires and you get a sneezing fit...", narratorText);
-                playerHealth -= 1;
                 Inv = Inv.filter(i => i !== item);
                 healthTracker();
             }else if(item === "spatula"){
@@ -730,19 +742,19 @@ function RockPaperScissor(thing){
 
     if(playerChoose === "Rock" && computerChoose === "Paper"){
         typeWriter("You loose", narratorText);
-        playerHealth -= playerHealth * 0.10
+        playerHealth -= 1;
         console.log("You lose");
         healthTracker();
     } 
     else if(playerChoose === "Scissor" && computerChoose === "Rock"){
         typeWriter("You loose", narratorText);
-        playerHealth -= playerHealth * 0.10
+        playerHealth -= 1;
         console.log("You lose");
         healthTracker();
     }
     else if(playerChoose === "Paper" && computerChoose === "Scissor"){
         typeWriter("You loose", narratorText);
-        playerHealth -= playerHealth * 0.10
+        playerHealth -= 1;
         console.log("You lose");
         healthTracker();
     }
@@ -753,7 +765,7 @@ function RockPaperScissor(thing){
     }
     else{
         typeWriter("You win!", narratorText);
-        monsterHealth -= monsterHealth * 0.10
+        monsterHealth -= 1;
         console.log("You win");
         healthTracker();
     }

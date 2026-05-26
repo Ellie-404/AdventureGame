@@ -55,6 +55,7 @@ a {
     flex-shrink: 0;
     display: flex;
     gap: 50px;
+    color: red;
 }
 #startBox {
     width: 90%;
