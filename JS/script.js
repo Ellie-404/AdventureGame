@@ -13,7 +13,7 @@ const room = ["bathRoom", "hallway", "bedRoom", "livingRoom", "kitchen","storage
 
 let playerHealth = 3;
 let monsterHealth = 5;
-let currentRoom = room[1];
+let currentRoom = room[0];
 let roomMemory = [];
 let plantEvent = [];
 
