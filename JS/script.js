@@ -103,7 +103,7 @@ function playRoomSound(room) {
     const sounds = {
         "bathroom": new Audio("sound/freesound_community-dripping-tapwater-27783.mp3"),
         "hallway": new Audio("sound/freesound_community-wood-creaking-30692.mp3"),
-        "bedroom": new Audio("sound/tanweraman-howling-hissy-blizard-350418.mp3"),
+        "bedroom": new Audio(""),
         "livingroom": new Audio("sound/freesound_community-rocking-chair-grand-final-78248.mp3"),
     };
 
